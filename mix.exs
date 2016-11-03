@@ -14,6 +14,7 @@ defmodule Timeanator.Mixfile do
      name: "Timeanator",
      description: @description,
      package: package(),
+     source_url: "https://github.com/Gwash3189/timeanator",
      deps: deps()]
   end
 
@@ -36,7 +37,8 @@ defmodule Timeanator.Mixfile do
   defp deps do
     [
       {:timex, "~> 3.0"},
-      {:ecto, "~> 2.0.0"}
+      {:ecto, "~> 2.0.0"},
+      {:ex_doc, ">= 0.0.0", only: :dev}
    ]
   end
 
