@@ -7,7 +7,7 @@ defmodule Timeanator.Mixfile do
 
   def project do
     [app: :timeanator,
-     version: "0.0.1",
+     version: "0.0.2",
      elixir: "~> 1.9",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -36,7 +36,7 @@ defmodule Timeanator.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:timex, "~> 3.0"},
+      {:timex, "~> 3.5"},
       {:ecto, "~> 2.0.0"},
       {:ex_doc, ">= 0.0.0", only: :dev}
    ]

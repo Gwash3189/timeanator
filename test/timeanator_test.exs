@@ -3,10 +3,10 @@ defmodule TimeanatorTest do
   import Timeanator
 
   describe "seconds" do
-    test "it returns two seconds in seconds" do
+    test "it returns two seconds in milliseconds" do
       value = 2 |> seconds
 
-      assert value == 2
+      assert value == 2000
     end
   end
 
@@ -14,7 +14,7 @@ defmodule TimeanatorTest do
     test "it returns two minutes in seconds" do
       value = 2 |> minutes
 
-      assert value == 120
+      assert value == 120_000
     end
   end
 
@@ -22,7 +22,7 @@ defmodule TimeanatorTest do
     test "it returns two hours in seconds" do
       value = 2 |> hours
 
-      assert value == 7_200
+      assert value == 7_200_000
     end
   end
 
@@ -30,7 +30,7 @@ defmodule TimeanatorTest do
     test "it returns two days in seconds" do
       value = 2 |> days
 
-      assert value == 172_800
+      assert value == 172_800_000
     end
   end
 
