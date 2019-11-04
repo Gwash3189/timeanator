@@ -1,6 +1,7 @@
 defmodule Timeanator do
-  @minutes_in_hour 60
-  @seconds_in_minute 60
+  @milliseconds_in_second 1000
+  @milliseconds_in_minute 60000
+  @millieseconds_in_hour 3600000
   @hours_in_day 24
 
   @moduledoc """
@@ -38,18 +39,30 @@ defmodule Timeanator do
   """
 
   @doc """
+    returns the amount provided in milliseconds
+  """
+  @spec millisecond(integer) :: integer
+  def millisecond(1), do: 1
+
+  @doc """
+    returns the amount provided in milliseconds
+  """
+  @spec milliseconds(integer) :: integer
+  def milliseconds(int), do: int
+
+  @doc """
     returns one second
   """
   @spec second(integer) :: integer
   def second(1), do:
-    seconds(1)
+    seconds(@milliseconds_in_second)
 
   @doc """
-    returns the amount provided in seconds
+    returns the amount of seconds provided in milliseconds
   """
   @spec seconds(integer) :: integer
   def seconds(int), do:
-    int
+    milliseconds(int * @milliseconds_in_second)
 
   @doc """
     returns one minute in seconds
@@ -63,7 +76,7 @@ defmodule Timeanator do
   """
   @spec minutes(integer) :: integer
   def minutes(int), do:
-    int * @seconds_in_minute
+    int * @milliseconds_in_minute
 
   @doc """
     returns one hour in seconds
@@ -77,7 +90,7 @@ defmodule Timeanator do
   """
   @spec hours(integer) :: integer
   def hours(int), do:
-    int * @minutes_in_hour * @seconds_in_minute
+    int * @millieseconds_in_hour
 
   @doc """
     returns one day in seconds
@@ -94,40 +107,40 @@ defmodule Timeanator do
     @hours_in_day * int |> hours
 
   @doc """
-    returns a erlang date that is X seconds in the future.
+    returns a erlang date that is X milliseconds in the future.
   """
   @spec from_now(integer, :ecto | nil) :: {:ok, :calendar.datetime} | {:ok, %Ecto.DateTime{}} | {:error, atom}
-  def from_now(seconds, cast_option \\ nil) when is_integer(seconds) do
+  def from_now(milliseconds, cast_option \\ nil) when is_integer(milliseconds) do
     Timex.now
-      |> Timex.shift(seconds: seconds)
+      |> Timex.shift(milliseconds: milliseconds)
       |> Timex.to_erl
       |> do_cast(cast_option)
   end
 
   @doc """
-    returns a erlang date that is X seconds in the future. Raises if there is a problem
+    returns a erlang date that is X milliseconds in the future. Raises if there is a problem
   """
   @spec from_now(integer, :ecto | nil) :: :calendar.datetime | %Ecto.DateTime{}
-  def from_now!(seconds, cast_options \\ nil) when is_integer(seconds) do
-    case from_now(seconds, cast_options) do
+  def from_now!(milliseconds, cast_options \\ nil) when is_integer(milliseconds) do
+    case from_now(milliseconds, cast_options) do
       {:error, message} -> throw message
       {:ok, value} -> value
     end
   end
 
   @doc """
-    returns a erlang date that is X seconds in the past.
+    returns a erlang date that is X milliseconds in the past.
   """
   @spec ago(integer, :ecto | nil) :: {:ok, :calendar.datetime} | {:ok, %Ecto.DateTime{}} | {:error, atom}
-  def ago(seconds, cast_option \\ nil) when is_integer(seconds), do:
-    from_now(seconds - (seconds * 2), cast_option)
+  def ago(milliseconds, cast_option \\ nil) when is_integer(milliseconds), do:
+    from_now(milliseconds - (milliseconds * 2), cast_option)
 
   @doc """
-    returns a erlang date that is X seconds in the past. Raises if there is a problem
+    returns a erlang date that is X milliseconds in the past. Raises if there is a problem
   """
   @spec ago!(integer, :ecto | nil) :: :calendar.datetime | %Ecto.DateTime{}
-  def ago!(seconds, cast_option \\ nil) when is_integer(seconds) do
-    case ago(seconds, cast_option) do
+  def ago!(milliseconds, cast_option \\ nil) when is_integer(milliseconds) do
+    case ago(milliseconds, cast_option) do
       {:error, message} -> raise message
       {:ok, value} -> value
     end
